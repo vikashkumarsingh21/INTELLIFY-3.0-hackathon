@@ -1,0 +1,704 @@
+[
+  {
+    "name": "Rice (Paddy)",
+    "season": "Kharif",
+    "water_requirement_mm": [
+      1200,
+      1500
+    ],
+    "irrigation_interval_days": [
+      3,
+      7
+    ],
+    "soil": "Clay loam to silty clay, good puddling",
+    "ideal_temp_c": [
+      20,
+      35
+    ],
+    "rainfall_mm": [
+      1000,
+      1500
+    ],
+    "ph_range": [
+      5.5,
+      7.0
+    ],
+    "notes": "Prefer standing water 2–5 cm during vegetative stage; sensitive to drought."
+  },
+  {
+    "name": "Wheat",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      450,
+      650
+    ],
+    "irrigation_interval_days": [
+      10,
+      12
+    ],
+    "soil": "Loam to clay loam, well-drained",
+    "ideal_temp_c": [
+      15,
+      25
+    ],
+    "rainfall_mm": [
+      300,
+      400
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Critical stages: CRI, tillering, flowering, dough."
+  },
+  {
+    "name": "Maize (Corn)",
+    "season": "Kharif/Rabi",
+    "water_requirement_mm": [
+      500,
+      800
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Well-drained loam to sandy loam",
+    "ideal_temp_c": [
+      18,
+      27
+    ],
+    "rainfall_mm": [
+      500,
+      700
+    ],
+    "ph_range": [
+      5.5,
+      7.5
+    ],
+    "notes": "Critical stages: tasseling, silking, grain filling."
+  },
+  {
+    "name": "Cotton",
+    "season": "Kharif",
+    "water_requirement_mm": [
+      700,
+      1300
+    ],
+    "irrigation_interval_days": [
+      7,
+      15
+    ],
+    "soil": "Deep black soil preferred; also loam",
+    "ideal_temp_c": [
+      20,
+      32
+    ],
+    "rainfall_mm": [
+      600,
+      800
+    ],
+    "ph_range": [
+      6.0,
+      8.0
+    ],
+    "notes": "Avoid waterlogging; long season crop."
+  },
+  {
+    "name": "Sugarcane",
+    "season": "Annual",
+    "water_requirement_mm": [
+      1500,
+      2500
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Loam to clay loam, fertile",
+    "ideal_temp_c": [
+      20,
+      30
+    ],
+    "rainfall_mm": [
+      1000,
+      1500
+    ],
+    "ph_range": [
+      6.0,
+      8.0
+    ],
+    "notes": "High water demand; drip recommended."
+  },
+  {
+    "name": "Soybean",
+    "season": "Kharif",
+    "water_requirement_mm": [
+      500,
+      700
+    ],
+    "irrigation_interval_days": [
+      7,
+      12
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      20,
+      30
+    ],
+    "rainfall_mm": [
+      500,
+      700
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Avoid waterlogging; sensitive at flowering."
+  },
+  {
+    "name": "Mustard (Rapeseed)",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      350,
+      500
+    ],
+    "irrigation_interval_days": [
+      10,
+      15
+    ],
+    "soil": "Loam to sandy loam",
+    "ideal_temp_c": [
+      10,
+      25
+    ],
+    "rainfall_mm": [
+      300,
+      400
+    ],
+    "ph_range": [
+      6.0,
+      8.5
+    ],
+    "notes": "Drought tolerant once established."
+  },
+  {
+    "name": "Chickpea (Gram)",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      300,
+      500
+    ],
+    "irrigation_interval_days": [
+      12,
+      15
+    ],
+    "soil": "Well-drained loam",
+    "ideal_temp_c": [
+      15,
+      25
+    ],
+    "rainfall_mm": [
+      300,
+      400
+    ],
+    "ph_range": [
+      6.0,
+      8.0
+    ],
+    "notes": "Usually grown on conserved moisture; 1–2 irrigations in dry areas."
+  },
+  {
+    "name": "Potato",
+    "season": "Rabi/Kharif (cool)",
+    "water_requirement_mm": [
+      500,
+      700
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Sandy loam to loam",
+    "ideal_temp_c": [
+      15,
+      21
+    ],
+    "rainfall_mm": [
+      400,
+      600
+    ],
+    "ph_range": [
+      5.0,
+      6.5
+    ],
+    "notes": "Uniform soil moisture essential to avoid scab and cracking."
+  },
+  {
+    "name": "Onion",
+    "season": "All seasons",
+    "water_requirement_mm": [
+      350,
+      550
+    ],
+    "irrigation_interval_days": [
+      4,
+      7
+    ],
+    "soil": "Sandy loam to loam",
+    "ideal_temp_c": [
+      13,
+      24
+    ],
+    "rainfall_mm": [
+      350,
+      550
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Shallow roots; frequent light irrigation."
+  },
+  {
+    "name": "Tomato",
+    "season": "All seasons",
+    "water_requirement_mm": [
+      500,
+      800
+    ],
+    "irrigation_interval_days": [
+      5,
+      7
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      18,
+      27
+    ],
+    "rainfall_mm": [
+      500,
+      700
+    ],
+    "ph_range": [
+      6.0,
+      7.0
+    ],
+    "notes": "Avoid water stress during flowering and fruit set."
+  },
+  {
+    "name": "Banana",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      1200,
+      2200
+    ],
+    "irrigation_interval_days": [
+      3,
+      5
+    ],
+    "soil": "Loam with good organic matter",
+    "ideal_temp_c": [
+      26,
+      30
+    ],
+    "rainfall_mm": [
+      1200,
+      2000
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Drip irrigation highly recommended."
+  },
+  {
+    "name": "Groundnut (Peanut)",
+    "season": "Kharif/Rabi",
+    "water_requirement_mm": [
+      500,
+      700
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Sandy loam, well-drained",
+    "ideal_temp_c": [
+      20,
+      30
+    ],
+    "rainfall_mm": [
+      500,
+      700
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Avoid irrigation at flowering to encourage pegging."
+  },
+  {
+    "name": "Sorghum (Jowar)",
+    "season": "Kharif/Rabi",
+    "water_requirement_mm": [
+      400,
+      600
+    ],
+    "irrigation_interval_days": [
+      10,
+      15
+    ],
+    "soil": "Loam to clay loam",
+    "ideal_temp_c": [
+      25,
+      32
+    ],
+    "rainfall_mm": [
+      400,
+      600
+    ],
+    "ph_range": [
+      5.5,
+      8.5
+    ],
+    "notes": "Drought tolerant cereal."
+  },
+  {
+    "name": "Pearl Millet (Bajra)",
+    "season": "Kharif",
+    "water_requirement_mm": [
+      350,
+      500
+    ],
+    "irrigation_interval_days": [
+      10,
+      15
+    ],
+    "soil": "Sandy loam to loam",
+    "ideal_temp_c": [
+      25,
+      35
+    ],
+    "rainfall_mm": [
+      300,
+      500
+    ],
+    "ph_range": [
+      6.0,
+      8.5
+    ],
+    "notes": "Highly drought tolerant."
+  },
+  {
+    "name": "Barley",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      300,
+      450
+    ],
+    "irrigation_interval_days": [
+      10,
+      15
+    ],
+    "soil": "Loam to sandy loam",
+    "ideal_temp_c": [
+      12,
+      25
+    ],
+    "rainfall_mm": [
+      250,
+      400
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Tolerates salinity better than wheat."
+  },
+  {
+    "name": "Sunflower",
+    "season": "All seasons",
+    "water_requirement_mm": [
+      400,
+      600
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      18,
+      24
+    ],
+    "rainfall_mm": [
+      400,
+      600
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Sensitive to waterlogging."
+  },
+  {
+    "name": "Tea",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      1200,
+      2500
+    ],
+    "irrigation_interval_days": [
+      3,
+      7
+    ],
+    "soil": "Acidic, well-drained, high organic matter",
+    "ideal_temp_c": [
+      18,
+      30
+    ],
+    "rainfall_mm": [
+      1200,
+      2500
+    ],
+    "ph_range": [
+      4.5,
+      5.5
+    ],
+    "notes": "Shade preferred; no standing water."
+  },
+  {
+    "name": "Coffee",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      1200,
+      2000
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Well-drained red loam",
+    "ideal_temp_c": [
+      15,
+      28
+    ],
+    "rainfall_mm": [
+      1200,
+      2000
+    ],
+    "ph_range": [
+      6.0,
+      6.5
+    ],
+    "notes": "Requires shade and well-distributed rainfall."
+  },
+  {
+    "name": "Apple",
+    "season": "Temperate (Perennial)",
+    "water_requirement_mm": [
+      600,
+      800
+    ],
+    "irrigation_interval_days": [
+      7,
+      14
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      21,
+      24
+    ],
+    "rainfall_mm": [
+      600,
+      800
+    ],
+    "ph_range": [
+      6.0,
+      7.0
+    ],
+    "notes": "Needs 800–1200 chilling hours; frost hardy."
+  },
+  {
+    "name": "Pea",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      350,
+      500
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      13,
+      18
+    ],
+    "rainfall_mm": [
+      350,
+      500
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Avoid high temps at flowering."
+  },
+  {
+    "name": "Cauliflower",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      400,
+      600
+    ],
+    "irrigation_interval_days": [
+      5,
+      7
+    ],
+    "soil": "Loam, fertile",
+    "ideal_temp_c": [
+      15,
+      20
+    ],
+    "rainfall_mm": [
+      400,
+      600
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Uniform moisture for head formation."
+  },
+  {
+    "name": "Cabbage",
+    "season": "Rabi",
+    "water_requirement_mm": [
+      400,
+      600
+    ],
+    "irrigation_interval_days": [
+      5,
+      7
+    ],
+    "soil": "Loam, fertile",
+    "ideal_temp_c": [
+      15,
+      20
+    ],
+    "rainfall_mm": [
+      400,
+      600
+    ],
+    "ph_range": [
+      6.0,
+      7.5
+    ],
+    "notes": "Frequent, light irrigation preferred."
+  },
+  {
+    "name": "Grapes",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      600,
+      800
+    ],
+    "irrigation_interval_days": [
+      3,
+      7
+    ],
+    "soil": "Loam to sandy loam",
+    "ideal_temp_c": [
+      15,
+      35
+    ],
+    "rainfall_mm": [
+      500,
+      700
+    ],
+    "ph_range": [
+      6.5,
+      7.5
+    ],
+    "notes": "Drip common; regulate during ripening."
+  },
+  {
+    "name": "Mango",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      750,
+      1250
+    ],
+    "irrigation_interval_days": [
+      7,
+      10
+    ],
+    "soil": "Alluvial to loam",
+    "ideal_temp_c": [
+      24,
+      30
+    ],
+    "rainfall_mm": [
+      750,
+      1200
+    ],
+    "ph_range": [
+      5.5,
+      7.5
+    ],
+    "notes": "Withhold irrigation before flowering to induce bloom."
+  },
+  {
+    "name": "Orange (Citrus)",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      600,
+      800
+    ],
+    "irrigation_interval_days": [
+      5,
+      10
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      13,
+      30
+    ],
+    "rainfall_mm": [
+      600,
+      800
+    ],
+    "ph_range": [
+      6.0,
+      7.0
+    ],
+    "notes": "Sensitive to waterlogging and salinity."
+  },
+  {
+    "name": "Pomegranate",
+    "season": "Perennial",
+    "water_requirement_mm": [
+      500,
+      800
+    ],
+    "irrigation_interval_days": [
+      10,
+      15
+    ],
+    "soil": "Loam, well-drained",
+    "ideal_temp_c": [
+      20,
+      32
+    ],
+    "rainfall_mm": [
+      500,
+      800
+    ],
+    "ph_range": [
+      5.5,
+      7.2
+    ],
+    "notes": "Drought tolerant; avoid over-irrigation to prevent cracking."
+  }
+]

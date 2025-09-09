@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="Smart Irrigation System">Smart Irrigation System</title>
+<link href="styles.css" rel="stylesheet"/>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="bg-animation">
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+</div>
+<div class="bg-animation">
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+</div>
+<nav class="navbar" id="navbar">
+<div class="nav-container">
+<div class="nav-brand">
+<i class="fas fa-seedling"></i>
+<span data-i18n="Krishi Drishti">Krishi Drishti</span>
+</div>
+<div class="nav-menu" id="navMenu">
+<a class="nav-link active" data-i18n="Dashboard" href="#dashboard" onclick="showSection('dashboard')">Dashboard</a>
+<a class="nav-link" data-i18n="Analytics" href="#analytics" onclick="showSection('analytics')">Analytics</a>
+<a class="nav-link" data-i18n="Crop Guide" href="#cropguide" onclick="showSection('cropguide')">Crop Guide</a>
+<a class="nav-link" data-i18n="Settings" href="#settings" onclick="showSection('settings')">Settings</a>
+<a class="nav-link" data-i18n="History" href="#history" onclick="showSection('history')">History</a>
+<a class="nav-link" data-i18n="Alerts" href="#alerts" onclick="showSection('alerts')">Alerts</a>
+</div>
+<div class="nav-toggle" id="navToggle">
+<i class="fas fa-bars"></i>
+</div>
+</div>
+</nav>
+<main class="main-content">
+<section class="content-section active" id="dashboard">
+<div class="hero-section">
+<div class="hero-content">
+<h1 class="hero-title">
+<span class="gradient-text" data-i18n="Smart Irrigation">Smart Irrigation</span>
+<br/>Control Center
+                    </h1>
+<p class="hero-subtitle" data-i18n="AI-Powered Agricultural Automation for Maximum Efficiency">AI-Powered Agricultural Automation for Maximum Efficiency</p>
+<div class="status-indicator">
+<div class="status-dot active"></div>
+<span data-i18n="System Online">System Online</span>
+<div class="system-time" id="systemTime"></div>
+</div>
+</div>
+</div>
+<div class="sensor-grid">
+<div class="sensor-card temperature" data-sensor="temperature">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-thermometer-half"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Temperature">Temperature</h3>
+<p class="sensor-status" data-i18n="Normal">Normal</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" id="temp-value">28.5</span>
+<span class="unit" data-i18n="°C">°C</span>
+</div>
+<div class="sensor-trend">
+<i class="fas fa-arrow-up trend-icon" id="temp-trend-icon"></i>
+<span data-i18n="+2.3°C from yesterday" id="temp-trend-text">+2.3°C from yesterday</span>
+</div>
+<div class="sensor-chart">
+<canvas id="tempChart"></canvas>
+</div>
+</div>
+<div class="sensor-card humidity" data-sensor="humidity">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-tint"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Humidity">Humidity</h3>
+<p class="sensor-status" data-i18n="Optimal">Optimal</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" id="humidity-value">65.2</span>
+<span class="unit">%</span>
+</div>
+<div class="sensor-trend">
+<i class="fas fa-arrow-up trend-icon" id="humidity-trend-icon"></i>
+<span data-i18n="+5.1% from yesterday" id="humidity-trend-text">+5.1% from yesterday</span>
+</div>
+<div class="sensor-chart">
+<canvas id="humidityChart"></canvas>
+</div>
+</div>
+<div class="sensor-card soil-moisture" data-sensor="soil">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-seedling"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Soil Moisture">Soil Moisture</h3>
+<p class="sensor-status" data-i18n="Good">Good</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" id="soil-value">72.8</span>
+<span class="unit">%</span>
+</div>
+<div class="sensor-trend">
+<i class="fas fa-arrow-up trend-icon" id="soil-trend-icon"></i>
+<span data-i18n="+8.3% from yesterday" id="soil-trend-text">+8.3% from yesterday</span>
+</div>
+<div class="sensor-chart">
+<canvas id="soilChart"></canvas>
+</div>
+</div>
+<div class="sensor-card rain-sensor" data-sensor="rain">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-cloud-rain"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Rain Sensor">Rain Sensor</h3>
+<p class="sensor-status" data-i18n="Clear" id="rain-status">Clear</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" data-i18n="No Rain" id="rain-value">No Rain</span>
+</div>
+<div class="sensor-trend">
+<i class="fas fa-sun trend-icon"></i>
+<span data-i18n="Clear skies ahead">Clear skies ahead</span>
+</div>
+<div class="rain-forecast">
+<div class="forecast-item">
+<span data-i18n="Next 6h">Next 6h</span>
+<i class="fas fa-sun"></i>
+</div>
+<div class="forecast-item">
+<span data-i18n="Next 12h">Next 12h</span>
+<i class="fas fa-cloud"></i>
+</div>
+</div>
+</div>
+<div class="sensor-card motor-status" data-sensor="motor">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-cog"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Motor Status">Motor Status</h3>
+<p class="sensor-status" data-i18n="Standby" id="motor-status">Standby</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" data-i18n="OFF" id="motor-value">OFF</span>
+</div>
+<div class="motor-controls">
+<button class="btn-control start" onclick="toggleMotor()">
+<i class="fas fa-play"></i> Start
+                        </button>
+<button class="btn-control stop" onclick="stopMotor()">
+<i class="fas fa-stop"></i> Stop
+                        </button>
+<button class="btn-control schedule" onclick="showScheduleModal()">
+<i class="fas fa-clock"></i> Schedule
+                        </button>
+</div>
+<div class="motor-stats">
+<div class="stat">
+<span data-i18n="Runtime Today">Runtime Today</span>
+<span data-i18n="2h 45m" id="motorRuntime">2h 45m</span>
+</div>
+<div class="stat">
+<span data-i18n="Water Flow">Water Flow</span>
+<span data-i18n="0 L/min" id="waterFlow">0 L/min</span>
+</div>
+</div>
+</div>
+<div class="sensor-card battery" data-sensor="battery">
+<div class="sensor-header">
+<div class="sensor-icon">
+<i class="fas fa-battery-three-quarters"></i>
+</div>
+<div class="sensor-info">
+<h3 data-i18n="Battery Level">Battery Level</h3>
+<p class="sensor-status" data-i18n="Good">Good</p>
+</div>
+</div>
+<div class="sensor-value">
+<span class="value" id="battery-value">3.7</span>
+<span class="unit" data-i18n="V">V</span>
+</div>
+<div class="battery-bar">
+<div class="battery-fill" id="batteryFill" style="width: 85%"></div>
+</div>
+<div class="battery-info">
+<div class="info-item">
+<span data-i18n="Charge">Charge</span>
+<span id="batteryPercentage">85%</span>
+</div>
+<div class="info-item">
+<span data-i18n="Est. Runtime">Est. Runtime</span>
+<span data-i18n="12h 30m">12h 30m</span>
+</div>
+</div>
+</div>
+</div>
+<div class="info-grid">
+<div class="info-card weather-card">
+<div class="card-header">
+<h3><i class="fas fa-cloud-sun"></i> Weather Forecast</h3>
+<div class="refresh-btn" onclick="refreshWeather()">
+<i class="fas fa-sync-alt"></i>
+</div>
+</div>
+<div class="weather-item">
+<h3 data-i18n="City">City</h3>
+<p id="city">--</p>
+</div>
+<div class="weather-display">
+<div class="weather-item">
+<h3 data-i18n="Temperature:">Temperature:</h3>
+<p id="weatherTemp"></p>°C
+                        </div>
+<div class="weather-item">
+<h3 data-i18n="Humidity:">Humidity:</h3>
+<p id="weatherHumidity">--</p>%
+                        </div>
+<div class="weather-item">
+<h3 data-i18n="Wind Speed:">Wind Speed:</h3>
+<p id="weatherWind">--</p>m/s
+                        </div>
+<div class="weather-item">
+<h3 data-i18n="Description:">Description:</h3>
+<p id="weatherDesc">--</p>
+</div>
+</div>
+<div class="weather-content" id="weatherData">
+<div class="weather-loading">
+<div class="loading-spinner"></div>
+<p data-i18n="Loading weather data...">Loading weather data...</p>
+</div>
+</div>
+</div>
+<div class="info-card camera-card">
+<div class="card-header">
+<h3><i class="fas fa-video"></i> Live Camera Feed</h3>
+<div class="camera-controls">
+<button class="btn-cam" onclick="toggleCamera()">
+<i class="fas fa-power-off"></i>
+</button>
+<button class="btn-cam" onclick="captureImage()">
+<i class="fas fa-camera"></i>
+</button>
+<button class="btn-cam" onclick="toggleNightVision()">
+<i class="fas fa-moon"></i>
+</button>
+</div>
+</div>
+<div class="camera-content">
+<div id="cameraFeed">
+<img alt="Live Camera Feed" data-i18n-alt="Live Camera Feed" src="http://127.0.0.1:5000/video_feed" style="width:100%; border-radius:12px;"/>
+</div>
+<div class="alert-box" id="animalAlert" style="display:none;">
+<i class="fas fa-exclamation-triangle"></i>
+<span data-i18n="Animal Detected! Security Protocol Activated">Animal Detected! Security Protocol Activated</span>
+</div>
+</div>
+</div>
+</div>
+<div class="system-info">
+<div class="info-card system-stats">
+<h3><i class="fas fa-server"></i> System Statistics</h3>
+<div class="stats-grid">
+<div class="stat-item">
+<div class="stat-icon">
+<i class="fas fa-clock"></i>
+</div>
+<div class="stat-info">
+<h4 data-i18n="Uptime">Uptime</h4>
+<p data-i18n="24h 15m" id="uptime">24h 15m</p>
+</div>
+</div>
+<div class="stat-item">
+<div class="stat-icon">
+<i class="fas fa-wifi"></i>
+</div>
+<div class="stat-info">
+<h4 data-i18n="Connection">Connection</h4>
+<p data-i18n="Strong (-45 dBm)" id="connectionStatus">Strong (-45 dBm)</p>
+</div>
+</div>
+<div class="stat-item">
+<div class="stat-icon">
+<i class="fas fa-memory"></i>
+</div>
+<div class="stat-info">
+<h4 data-i18n="Memory Usage">Memory Usage</h4>
+<p data-i18n="68% (2.1GB)" id="memoryUsage">68% (2.1GB)</p>
+</div>
+</div>
+<div class="stat-item">
+<div class="stat-icon">
+<i class="fas fa-microchip"></i>
+</div>
+<div class="stat-info">
+<h4 data-i18n="CPU Load">CPU Load</h4>
+<p id="cpuLoad">42%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="content-section" id="analytics">
+<div class="page-header">
+<h2><i class="fas fa-chart-line"></i> Analytics Dashboard</h2>
+<p data-i18n="Real-time data and crop market prices">Real-time data and crop market prices</p>
+</div>
+<div class="analytics-grid">
+<div class="analytics-card">
+<div class="card-header">
+<h3><i class="fas fa-chart-area"></i> Real-Time Sensor Data</h3>
+<div class="chart-controls">
+<select class="chart-select" id="chartPeriod">
+<option data-i18n="Last Hour" value="1h">Last Hour</option>
+<option data-i18n="Last 24 Hours" selected="" value="24h">Last 24 Hours</option>
+<option data-i18n="Last 7 Days" value="7d">Last 7 Days</option>
+<option data-i18n="Last 30 Days" value="30d">Last 30 Days</option>
+</select>
+<button class="btn-export" onclick="exportData()">
+<i class="fas fa-download"></i> Export
+                            </button>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="sensorChart"></canvas>
+</div>
+</div>
+<div class="analytics-card">
+<div class="card-header">
+<h3><i class="fas fa-leaf"></i> Crop &amp; Vegetable Market Prices</h3>
+</div>
+<div class="market-search">
+<input data-i18n-placeholder="Enter crop name..." id="cropSearch" list="commodityList" placeholder="Enter crop name..." type="text"/>
+<datalist id="commodityList">
+<option data-i18n="Wheat">Wheat</option>
+<option data-i18n="Rice">Rice</option>
+<option data-i18n="Maize">Maize</option>
+<option data-i18n="Onion">Onion</option>
+<option data-i18n="Potato">Potato</option>
+<option data-i18n="Tomato">Tomato</option>
+<option data-i18n="Banana">Banana</option>
+<option data-i18n="Apple">Apple</option>
+<option data-i18n="Mango">Mango</option>
+<option data-i18n="Chili">Chili</option>
+<option data-i18n="Soyabean">Soyabean</option>
+<option data-i18n="Groundnut">Groundnut</option>
+<option data-i18n="Mustard">Mustard</option>
+<option data-i18n="Turmeric">Turmeric</option>
+<option data-i18n="Garlic">Garlic</option>
+</datalist>
+<select id="stateSelect">
+<option data-i18n="Select State..." value="">Select State...</option>
+<option data-i18n="All India" value="All India">All India</option>
+<option data-i18n="Andhra Pradesh" value="Andhra Pradesh">Andhra Pradesh</option>
+<option data-i18n="Arunachal Pradesh" value="Arunachal Pradesh">Arunachal Pradesh</option>
+<option data-i18n="Assam" value="Assam">Assam</option>
+<option data-i18n="Bihar" value="Bihar">Bihar</option>
+<option data-i18n="Chhattisgarh" value="Chhattisgarh">Chhattisgarh</option>
+<option data-i18n="Goa" value="Goa">Goa</option>
+<option data-i18n="Gujarat" value="Gujarat">Gujarat</option>
+<option data-i18n="Haryana" value="Haryana">Haryana</option>
+<option data-i18n="Himachal Pradesh" value="Himachal Pradesh">Himachal Pradesh</option>
+<option data-i18n="Jharkhand" value="Jharkhand">Jharkhand</option>
+<option data-i18n="Karnataka" value="Karnataka">Karnataka</option>
+<option data-i18n="Kerala" value="Kerala">Kerala</option>
+<option data-i18n="Madhya Pradesh" value="Madhya Pradesh">Madhya Pradesh</option>
+<option data-i18n="Maharashtra" value="Maharashtra">Maharashtra</option>
+<option data-i18n="Manipur" value="Manipur">Manipur</option>
+<option data-i18n="Meghalaya" value="Meghalaya">Meghalaya</option>
+<option data-i18n="Mizoram" value="Mizoram">Mizoram</option>
+<option data-i18n="Nagaland" value="Nagaland">Nagaland</option>
+<option data-i18n="Odisha" value="Odisha">Odisha</option>
+<option data-i18n="Punjab" value="Punjab">Punjab</option>
+<option data-i18n="Rajasthan" value="Rajasthan">Rajasthan</option>
+<option data-i18n="Sikkim" value="Sikkim">Sikkim</option>
+<option data-i18n="Tamil Nadu" value="Tamil Nadu">Tamil Nadu</option>
+<option data-i18n="Telangana" value="Telangana">Telangana</option>
+<option data-i18n="Tripura" value="Tripura">Tripura</option>
+<option data-i18n="Uttar Pradesh" value="Uttar Pradesh">Uttar Pradesh</option>
+<option data-i18n="Uttarakhand" value="Uttarakhand">Uttarakhand</option>
+<option data-i18n="West Bengal" value="West Bengal">West Bengal</option>
+<option data-i18n="Andaman and Nicobar Islands" value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+<option data-i18n="Chandigarh" value="Chandigarh">Chandigarh</option>
+<option data-i18n="Dadra and Nagar Haveli and Daman
+                                and Diu" value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman
+                                and Diu</option>
+<option data-i18n="Delhi" value="Delhi">Delhi</option>
+<option data-i18n="Jammu and Kashmir" value="Jammu and Kashmir">Jammu and Kashmir</option>
+<option data-i18n="Ladakh" value="Ladakh">Ladakh</option>
+<option data-i18n="Lakshadweep" value="Lakshadweep">Lakshadweep</option>
+<option data-i18n="Puducherry" value="Puducherry">Puducherry</option>
+</select>
+<button class="btn-export" id="searchBtn">
+<i class="fas fa-search"></i> Search
+                        </button>
+</div>
+<div class="market-results" id="marketResults"></div>
+</div>
+<div class="analytics-card" id="weather-section">
+<h2 class="section-title" data-i18n="Weather Prediction">Weather Prediction</h2>
+<form class="weather-form" id="weather-form">
+<input aria-label="Location" data-i18n-aria-label="Location" data-i18n-placeholder="Enter city or village (e.g., Pune, Ahmedabad)" id="weather-query" placeholder="Enter city or village (e.g., Pune, Ahmedabad)" type="text"/>
+<button class="btn" data-i18n="Get Weather" type="submit">Get Weather</button>
+</form>
+<p class="weather-status" data-i18n="Type a location to view forecast." id="weather-status">Type a location to view forecast.</p>
+<div id="weather-current"></div>
+<div id="weather-daily"></div>
+<p class="note">Powered by <a data-i18n="Open‑Meteo" href="https://open-meteo.com/" rel="noopener" target="_blank">Open‑Meteo</a>. No API key required.</p>
+</div>
+</div>
+</section>
+<section class="content-section" id="settings">
+<div class="page-header">
+<h2><i class="fas fa-cog"></i> System Settings</h2>
+<p data-i18n="Configure your irrigation system preferences">Configure your irrigation system preferences</p>
+</div>
+<div class="settings-grid">
+<div class="settings-card">
+<div class="card-header">
+<h3><i class="fas fa-droplet"></i> Irrigation Settings</h3>
+</div>
+<div class="settings-content">
+<div class="setting-item">
+<label data-i18n="Auto Irrigation">Auto Irrigation</label>
+<div class="toggle-switch">
+<input checked="" id="autoIrrigation" type="checkbox"/>
+<label for="autoIrrigation"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Soil Moisture Threshold">Soil Moisture Threshold</label>
+<div class="range-input">
+<input id="moistureThreshold" max="80" min="30" type="range" value="50"/>
+<span id="moistureValue">50%</span>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Irrigation Duration (minutes)">Irrigation Duration (minutes)</label>
+<div class="number-input">
+<input id="irrigationDuration" max="120" min="5" type="number" value="30"/>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Schedule Type">Schedule Type</label>
+<select class="setting-select" id="scheduleType">
+<option data-i18n="Automatic" value="automatic">Automatic</option>
+<option data-i18n="Timed Schedule" value="timed">Timed Schedule</option>
+<option data-i18n="Manual Only" value="manual">Manual Only</option>
+</select>
+</div>
+</div>
+</div>
+<div class="settings-card">
+<div class="card-header">
+<h3><i class="fas fa-bell"></i> Notification Settings</h3>
+</div>
+<div class="settings-content">
+<div class="setting-item">
+<label data-i18n="Email Notifications">Email Notifications</label>
+<div class="toggle-switch">
+<input checked="" id="emailNotifications" type="checkbox"/>
+<label for="emailNotifications"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="SMS Alerts">SMS Alerts</label>
+<div class="toggle-switch">
+<input id="smsAlerts" type="checkbox"/>
+<label for="smsAlerts"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Push Notifications">Push Notifications</label>
+<div class="toggle-switch">
+<input checked="" id="pushNotifications" type="checkbox"/>
+<label for="pushNotifications"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Alert Frequency">Alert Frequency</label>
+<select class="setting-select" id="alertFrequency">
+<option data-i18n="Immediate" value="immediate">Immediate</option>
+<option data-i18n="Hourly Summary" value="hourly">Hourly Summary</option>
+<option data-i18n="Daily Report" value="daily">Daily Report</option>
+</select>
+</div>
+</div>
+</div>
+<div class="settings-card">
+<div class="card-header">
+<h3><i class="fas fa-wifi"></i> Connectivity Settings</h3>
+</div>
+<div class="settings-content">
+<div class="setting-item">
+<label data-i18n="WiFi Network">WiFi Network</label>
+<div class="wifi-info">
+<span data-i18n="SmartFarm_Network" id="wifiNetwork">SmartFarm_Network</span>
+<button class="btn-change" data-i18n="Change" onclick="changeWiFi()">Change</button>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Data Update Interval">Data Update Interval</label>
+<select class="setting-select" id="updateInterval">
+<option data-i18n="5 seconds" value="5">5 seconds</option>
+<option data-i18n="10 seconds" selected="" value="10">10 seconds</option>
+<option data-i18n="30 seconds" value="30">30 seconds</option>
+<option data-i18n="1 minute" value="60">1 minute</option>
+</select>
+</div>
+<div class="setting-item">
+<label data-i18n="Cloud Backup">Cloud Backup</label>
+<div class="toggle-switch">
+<input checked="" id="cloudBackup" type="checkbox"/>
+<label for="cloudBackup"></label>
+</div>
+</div>
+</div>
+</div>
+<div class="settings-card">
+<div class="card-header">
+<h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+</div>
+<div class="settings-content">
+<div class="setting-item">
+<label data-i18n="Animal Detection">Animal Detection</label>
+<div class="toggle-switch">
+<input checked="" id="animalDetection" type="checkbox"/>
+<label for="animalDetection"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Motion Alerts">Motion Alerts</label>
+<div class="toggle-switch">
+<input checked="" id="motionAlerts" type="checkbox"/>
+<label for="motionAlerts"></label>
+</div>
+</div>
+<div class="setting-item">
+<label data-i18n="Camera Recording">Camera Recording</label>
+<select class="setting-select" id="cameraRecording">
+<option data-i18n="Off" value="off">Off</option>
+<option data-i18n="On Motion" selected="" value="motion">On Motion</option>
+<option data-i18n="Continuous" value="continuous">Continuous</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div class="settings-actions">
+<button class="btn-primary" onclick="saveSettings()">
+<i class="fas fa-save"></i> Save Settings
+                </button>
+<button class="btn-secondary" onclick="resetSettings()">
+<i class="fas fa-undo"></i> Reset to Default
+                </button>
+<button class="btn-danger" onclick="exportSettings()">
+<i class="fas fa-download"></i> Export Configuration
+                </button>
+</div>
+</section>
+<section class="content-section" id="history">
+<div class="page-header">
+<h2><i class="fas fa-history"></i> System History</h2>
+<p data-i18n="Track all system activities and events">Track all system activities and events</p>
+</div>
+<div class="history-filters">
+<div class="filter-group">
+<label data-i18n="Date Range">Date Range</label>
+<select id="dateRange" onchange="filterHistory()">
+<option data-i18n="Today" value="today">Today</option>
+<option data-i18n="This Week" selected="" value="week">This Week</option>
+<option data-i18n="This Month" value="month">This Month</option>
+<option data-i18n="Custom Range" value="custom">Custom Range</option>
+</select>
+</div>
+<div class="filter-group">
+<label data-i18n="Event Type">Event Type</label>
+<select id="eventType" onchange="filterHistory()">
+<option data-i18n="All Events" value="all">All Events</option>
+<option data-i18n="Irrigation" value="irrigation">Irrigation</option>
+<option data-i18n="Alerts" value="alerts">Alerts</option>
+<option data-i18n="System" value="system">System</option>
+</select>
+</div>
+<button class="btn-filter" onclick="clearFilters()">
+<i class="fas fa-times"></i> Clear Filters
+                </button>
+</div>
+<div class="history-timeline" id="historyTimeline">
+<div class="timeline-item irrigation">
+<div class="timeline-marker"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<h4 data-i18n="Automatic Irrigation Started">Automatic Irrigation Started</h4>
+<span class="timeline-time" data-i18n="2 hours ago">2 hours ago</span>
+</div>
+<p data-i18n="Soil moisture level dropped to 45%. Auto-irrigation activated for Zone 1.">Soil moisture level dropped to 45%. Auto-irrigation activated for Zone 1.</p>
+<div class="timeline-details">
+<span class="detail" data-i18n="Duration: 25 minutes">Duration: 25 minutes</span>
+<span class="detail" data-i18n="Water Used: 150L">Water Used: 150L</span>
+</div>
+</div>
+</div>
+<div class="timeline-item alert">
+<div class="timeline-marker"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<h4 data-i18n="High Temperature Alert">High Temperature Alert</h4>
+<span class="timeline-time" data-i18n="4 hours ago">4 hours ago</span>
+</div>
+<p data-i18n="Temperature reached 38°C. System adjusted irrigation schedule.">Temperature reached 38°C. System adjusted irrigation schedule.</p>
+<div class="timeline-details">
+<span class="detail" data-i18n="Status: Resolved">Status: Resolved</span>
+</div>
+</div>
+</div>
+<div class="timeline-item system">
+<div class="timeline-marker"></div>
+<div class="timeline-content">
+<div class="timeline-header">
+<h4 data-i18n="System Update">System Update</h4>
+<span class="timeline-time" data-i18n="1 day ago">1 day ago</span>
+</div>
+<p data-i18n="Firmware updated to version 2.1.3. New features added.">Firmware updated to version 2.1.3. New features added.</p>
+<div class="timeline-details">
+<span class="detail" data-i18n="Version: 2.1.3">Version: 2.1.3</span>
+<span class="detail" data-i18n="Size: 12.4MB">Size: 12.4MB</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="content-section" id="alerts">
+<div class="page-header">
+<h2><i class="fas fa-exclamation-triangle"></i> System Alerts</h2>
+<p data-i18n="Monitor and manage system notifications">Monitor and manage system notifications</p>
+</div>
+<div class="alerts-summary">
+<div class="alert-counter critical">
+<div class="counter-icon">
+<i class="fas fa-exclamation-circle"></i>
+</div>
+<div class="counter-info">
+<h3>2</h3>
+<p data-i18n="Critical Alerts">Critical Alerts</p>
+</div>
+</div>
+<div class="alert-counter warning">
+<div class="counter-icon">
+<i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="counter-info">
+<h3>5</h3>
+<p data-i18n="Warnings">Warnings</p>
+</div>
+</div>
+<div class="alert-counter info">
+<div class="counter-icon">
+<i class="fas fa-info-circle"></i>
+</div>
+<div class="counter-info">
+<h3>12</h3>
+<p data-i18n="Info Messages">Info Messages</p>
+</div>
+</div>
+</div>
+<div class="alerts-list" id="alertsList">
+<div class="alert-item critical">
+<div class="alert-icon">
+<i class="fas fa-battery-quarter"></i>
+</div>
+<div class="alert-content">
+<h4 data-i18n="Low Battery Warning">Low Battery Warning</h4>
+<p data-i18n="Battery level critically low at 15%. System may shutdown soon.">Battery level critically low at 15%. System may shutdown soon.</p>
+<span class="alert-time" data-i18n="5 minutes ago">5 minutes ago</span>
+</div>
+<div class="alert-actions">
+<button class="btn-resolve" data-i18n="Resolve" onclick="resolveAlert(this)">Resolve</button>
+<button class="btn-details" data-i18n="Details" onclick="showAlertDetails(this)">Details</button>
+</div>
+</div>
+<div class="alert-item warning">
+<div class="alert-icon">
+<i class="fas fa-thermometer-full"></i>
+</div>
+<div class="alert-content">
+<h4 data-i18n="High Temperature Detected">High Temperature Detected</h4>
+<p data-i18n="Temperature sensor reading 42°C. Consider increasing irrigation frequency.">Temperature sensor reading 42°C. Consider increasing irrigation frequency.</p>
+<span class="alert-time" data-i18n="1 hour ago">1 hour ago</span>
+</div>
+<div class="alert-actions">
+<button class="btn-resolve" data-i18n="Resolve" onclick="resolveAlert(this)">Resolve</button>
+<button class="btn-details" data-i18n="Details" onclick="showAlertDetails(this)">Details</button>
+</div>
+</div>
+<div class="alert-item info">
+<div class="alert-icon">
+<i class="fas fa-cloud-rain"></i>
+</div>
+<div class="alert-content">
+<h4 data-i18n="Rain Detected">Rain Detected</h4>
+<p data-i18n="Rain sensor activated. Automatic irrigation paused for the next 6 hours.">Rain sensor activated. Automatic irrigation paused for the next 6 hours.</p>
+<span class="alert-time" data-i18n="3 hours ago">3 hours ago</span>
+</div>
+<div class="alert-actions">
+<button class="btn-resolve" data-i18n="Resolve" onclick="resolveAlert(this)">Resolve</button>
+<button class="btn-details" data-i18n="Details" onclick="showAlertDetails(this)">Details</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div class="modal" id="scheduleModal">
+<div class="modal-content">
+<div class="modal-header">
+<h3 data-i18n="Schedule Irrigation">Schedule Irrigation</h3>
+<span class="modal-close" onclick="closeModal('scheduleModal')">×</span>
+</div>
+<div class="modal-body">
+<div class="schedule-form">
+<div class="form-group">
+<label data-i18n="Start Time">Start Time</label>
+<input id="startTime" type="time" value="06:00"/>
+</div>
+<div class="form-group">
+<label data-i18n="Duration (minutes)">Duration (minutes)</label>
+<input id="duration" max="120" min="5" type="number" value="30"/>
+</div>
+<div class="form-group">
+<label data-i18n="Days of Week">Days of Week</label>
+<div class="days-selector">
+<label class="day-checkbox">
+<input checked="" data-i18n-value="monday" type="checkbox" value="monday"/>
+<span data-i18n="Mon">Mon</span>
+</label>
+<label class="day-checkbox">
+<input checked="" data-i18n-value="tuesday" type="checkbox" value="tuesday"/>
+<span data-i18n="Tue">Tue</span>
+</label>
+<label class="day-checkbox">
+<input checked="" data-i18n-value="wednesday" type="checkbox" value="wednesday"/>
+<span data-i18n="Wed">Wed</span>
+</label>
+<label class="day-checkbox">
+<input checked="" data-i18n-value="thursday" type="checkbox" value="thursday"/>
+<span data-i18n="Thu">Thu</span>
+</label>
+<label class="day-checkbox">
+<input checked="" data-i18n-value="friday" type="checkbox" value="friday"/>
+<span data-i18n="Fri">Fri</span>
+</label>
+<label class="day-checkbox">
+<input data-i18n-value="saturday" type="checkbox" value="saturday"/>
+<span data-i18n="Sat">Sat</span>
+</label>
+<label class="day-checkbox">
+<input data-i18n-value="sunday" type="checkbox" value="sunday"/>
+<span data-i18n="Sun">Sun</span>
+</label>
+</div>
+</div>
+<div class="form-group">
+<label data-i18n="Repeat">Repeat</label>
+<select id="repeatSchedule">
+<option data-i18n="Weekly" value="weekly">Weekly</option>
+<option data-i18n="Daily" value="daily">Daily</option>
+<option data-i18n="Once" value="once">Once</option>
+</select>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn-secondary" data-i18n="Cancel" onclick="closeModal('scheduleModal')">Cancel</button>
+<button class="btn-primary" data-i18n="Save Schedule" onclick="saveSchedule()">Save Schedule</button>
+</div>
+</div>
+</div>
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-section">
+<h4 data-i18n="Smart Irrigation System">Smart Irrigation System</h4>
+<p data-i18n="Next-generation agricultural automation platform">Next-generation agricultural automation platform</p>
+</div>
+<div class="footer-section">
+<h4 data-i18n="Hackathon 2025">Hackathon 2025</h4>
+<p data-i18n="Created by Vikash Kumar &amp; Team">Created by Vikash Kumar &amp; Team</p>
+</div>
+<div class="footer-section">
+<div class="social-links">
+<a aria-label="GitHub" data-i18n-aria-label="GitHub" href="#"><i class="fab fa-github"></i></a>
+<a aria-label="LinkedIn" data-i18n-aria-label="LinkedIn" href="#"><i class="fab fa-linkedin"></i></a>
+<a aria-label="Twitter" data-i18n-aria-label="Twitter" href="#"><i class="fab fa-twitter"></i></a>
+</div>
+</div>
+</div>
+</footer>
+<div class="notification-container" id="notificationContainer"></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="script.js"></script>
+<!-- Crop Guide Section -->
+<section class="content-section" id="cropguide">
+<div class="container">
+<div class="section-header">
+<h2><i class="fas fa-leaf"></i> Crop Guide &amp; Smart Irrigation</h2>
+<p data-i18n="Search a crop to see recommended water use, irrigation interval, ideal weather and soil conditions. Optionally enter your field area to estimate total seasonal water need.">Search a crop to see recommended water use, irrigation interval, ideal weather and soil conditions. Optionally enter your field area to estimate total seasonal water need.</p>
+</div>
+<div class="card">
+<div class="card-content">
+<div class="grid-2">
+<div>
+<label class="input-label" data-i18n="Crop" for="cropSearchInput">Crop</label>
+<input class="input" data-i18n-placeholder="Type e.g. Rice, Wheat, Apple..." id="cropSearchInput" list="cropDatalist" placeholder="Type e.g. Rice, Wheat, Apple...">
+<datalist id="cropDatalist"></datalist>
+</input></div>
+<div class="grid-2">
+<div>
+<label class="input-label" data-i18n="Area" for="areaValue">Area</label>
+<input class="input" data-i18n-placeholder="e.g. 1.0" id="areaValue" min="0" placeholder="e.g. 1.0" step="0.01" type="number">
+</input></div>
+<div>
+<label class="input-label" data-i18n="Unit" for="areaUnit">Unit</label>
+<select class="input" id="areaUnit">
+<option data-i18n="Hectare" selected="" value="hectare">Hectare</option>
+<option data-i18n="Acre" value="acre">Acre</option>
+</select>
+</div>
+</div>
+</div>
+<div class="actions mt-3">
+<button class="btn primary" id="cropSearchBtn"><i class="fas fa-search"></i> Search</button>
+<button class="btn" id="cropClearBtn"><i class="fas fa-times"></i> Clear</button>
+</div>
+</div>
+</div>
+<div class="results" id="cropResults"></div>
+</div>
+<!-- Inline fallback data (used if fetching data/crops.json fails) -->
+<script id="cropData" type="application/json">[{"name": "Rice (Paddy)", "season": "Kharif", "water_requirement_mm": [1200, 1500], "irrigation_interval_days": [3, 7], "soil": "Clay loam to silty clay, good puddling", "ideal_temp_c": [20, 35], "rainfall_mm": [1000, 1500], "ph_range": [5.5, 7.0], "notes": "Prefer standing water 2–5 cm during vegetative stage; sensitive to drought."}, {"name": "Wheat", "season": "Rabi", "water_requirement_mm": [450, 650], "irrigation_interval_days": [10, 12], "soil": "Loam to clay loam, well-drained", "ideal_temp_c": [15, 25], "rainfall_mm": [300, 400], "ph_range": [6.0, 7.5], "notes": "Critical stages: CRI, tillering, flowering, dough."}, {"name": "Maize (Corn)", "season": "Kharif/Rabi", "water_requirement_mm": [500, 800], "irrigation_interval_days": [7, 10], "soil": "Well-drained loam to sandy loam", "ideal_temp_c": [18, 27], "rainfall_mm": [500, 700], "ph_range": [5.5, 7.5], "notes": "Critical stages: tasseling, silking, grain filling."}, {"name": "Cotton", "season": "Kharif", "water_requirement_mm": [700, 1300], "irrigation_interval_days": [7, 15], "soil": "Deep black soil preferred; also loam", "ideal_temp_c": [20, 32], "rainfall_mm": [600, 800], "ph_range": [6.0, 8.0], "notes": "Avoid waterlogging; long season crop."}, {"name": "Sugarcane", "season": "Annual", "water_requirement_mm": [1500, 2500], "irrigation_interval_days": [7, 10], "soil": "Loam to clay loam, fertile", "ideal_temp_c": [20, 30], "rainfall_mm": [1000, 1500], "ph_range": [6.0, 8.0], "notes": "High water demand; drip recommended."}, {"name": "Soybean", "season": "Kharif", "water_requirement_mm": [500, 700], "irrigation_interval_days": [7, 12], "soil": "Loam, well-drained", "ideal_temp_c": [20, 30], "rainfall_mm": [500, 700], "ph_range": [6.0, 7.5], "notes": "Avoid waterlogging; sensitive at flowering."}, {"name": "Mustard (Rapeseed)", "season": "Rabi", "water_requirement_mm": [350, 500], "irrigation_interval_days": [10, 15], "soil": "Loam to sandy loam", "ideal_temp_c": [10, 25], "rainfall_mm": [300, 400], "ph_range": [6.0, 8.5], "notes": "Drought tolerant once established."}, {"name": "Chickpea (Gram)", "season": "Rabi", "water_requirement_mm": [300, 500], "irrigation_interval_days": [12, 15], "soil": "Well-drained loam", "ideal_temp_c": [15, 25], "rainfall_mm": [300, 400], "ph_range": [6.0, 8.0], "notes": "Usually grown on conserved moisture; 1–2 irrigations in dry areas."}, {"name": "Potato", "season": "Rabi/Kharif (cool)", "water_requirement_mm": [500, 700], "irrigation_interval_days": [7, 10], "soil": "Sandy loam to loam", "ideal_temp_c": [15, 21], "rainfall_mm": [400, 600], "ph_range": [5.0, 6.5], "notes": "Uniform soil moisture essential to avoid scab and cracking."}, {"name": "Onion", "season": "All seasons", "water_requirement_mm": [350, 550], "irrigation_interval_days": [4, 7], "soil": "Sandy loam to loam", "ideal_temp_c": [13, 24], "rainfall_mm": [350, 550], "ph_range": [6.0, 7.5], "notes": "Shallow roots; frequent light irrigation."}, {"name": "Tomato", "season": "All seasons", "water_requirement_mm": [500, 800], "irrigation_interval_days": [5, 7], "soil": "Loam, well-drained", "ideal_temp_c": [18, 27], "rainfall_mm": [500, 700], "ph_range": [6.0, 7.0], "notes": "Avoid water stress during flowering and fruit set."}, {"name": "Banana", "season": "Perennial", "water_requirement_mm": [1200, 2200], "irrigation_interval_days": [3, 5], "soil": "Loam with good organic matter", "ideal_temp_c": [26, 30], "rainfall_mm": [1200, 2000], "ph_range": [6.0, 7.5], "notes": "Drip irrigation highly recommended."}, {"name": "Groundnut (Peanut)", "season": "Kharif/Rabi", "water_requirement_mm": [500, 700], "irrigation_interval_days": [7, 10], "soil": "Sandy loam, well-drained", "ideal_temp_c": [20, 30], "rainfall_mm": [500, 700], "ph_range": [6.0, 7.5], "notes": "Avoid irrigation at flowering to encourage pegging."}, {"name": "Sorghum (Jowar)", "season": "Kharif/Rabi", "water_requirement_mm": [400, 600], "irrigation_interval_days": [10, 15], "soil": "Loam to clay loam", "ideal_temp_c": [25, 32], "rainfall_mm": [400, 600], "ph_range": [5.5, 8.5], "notes": "Drought tolerant cereal."}, {"name": "Pearl Millet (Bajra)", "season": "Kharif", "water_requirement_mm": [350, 500], "irrigation_interval_days": [10, 15], "soil": "Sandy loam to loam", "ideal_temp_c": [25, 35], "rainfall_mm": [300, 500], "ph_range": [6.0, 8.5], "notes": "Highly drought tolerant."}, {"name": "Barley", "season": "Rabi", "water_requirement_mm": [300, 450], "irrigation_interval_days": [10, 15], "soil": "Loam to sandy loam", "ideal_temp_c": [12, 25], "rainfall_mm": [250, 400], "ph_range": [6.0, 7.5], "notes": "Tolerates salinity better than wheat."}, {"name": "Sunflower", "season": "All seasons", "water_requirement_mm": [400, 600], "irrigation_interval_days": [7, 10], "soil": "Loam, well-drained", "ideal_temp_c": [18, 24], "rainfall_mm": [400, 600], "ph_range": [6.0, 7.5], "notes": "Sensitive to waterlogging."}, {"name": "Tea", "season": "Perennial", "water_requirement_mm": [1200, 2500], "irrigation_interval_days": [3, 7], "soil": "Acidic, well-drained, high organic matter", "ideal_temp_c": [18, 30], "rainfall_mm": [1200, 2500], "ph_range": [4.5, 5.5], "notes": "Shade preferred; no standing water."}, {"name": "Coffee", "season": "Perennial", "water_requirement_mm": [1200, 2000], "irrigation_interval_days": [7, 10], "soil": "Well-drained red loam", "ideal_temp_c": [15, 28], "rainfall_mm": [1200, 2000], "ph_range": [6.0, 6.5], "notes": "Requires shade and well-distributed rainfall."}, {"name": "Apple", "season": "Temperate (Perennial)", "water_requirement_mm": [600, 800], "irrigation_interval_days": [7, 14], "soil": "Loam, well-drained", "ideal_temp_c": [21, 24], "rainfall_mm": [600, 800], "ph_range": [6.0, 7.0], "notes": "Needs 800–1200 chilling hours; frost hardy."}, {"name": "Pea", "season": "Rabi", "water_requirement_mm": [350, 500], "irrigation_interval_days": [7, 10], "soil": "Loam, well-drained", "ideal_temp_c": [13, 18], "rainfall_mm": [350, 500], "ph_range": [6.0, 7.5], "notes": "Avoid high temps at flowering."}, {"name": "Cauliflower", "season": "Rabi", "water_requirement_mm": [400, 600], "irrigation_interval_days": [5, 7], "soil": "Loam, fertile", "ideal_temp_c": [15, 20], "rainfall_mm": [400, 600], "ph_range": [6.0, 7.5], "notes": "Uniform moisture for head formation."}, {"name": "Cabbage", "season": "Rabi", "water_requirement_mm": [400, 600], "irrigation_interval_days": [5, 7], "soil": "Loam, fertile", "ideal_temp_c": [15, 20], "rainfall_mm": [400, 600], "ph_range": [6.0, 7.5], "notes": "Frequent, light irrigation preferred."}, {"name": "Grapes", "season": "Perennial", "water_requirement_mm": [600, 800], "irrigation_interval_days": [3, 7], "soil": "Loam to sandy loam", "ideal_temp_c": [15, 35], "rainfall_mm": [500, 700], "ph_range": [6.5, 7.5], "notes": "Drip common; regulate during ripening."}, {"name": "Mango", "season": "Perennial", "water_requirement_mm": [750, 1250], "irrigation_interval_days": [7, 10], "soil": "Alluvial to loam", "ideal_temp_c": [24, 30], "rainfall_mm": [750, 1200], "ph_range": [5.5, 7.5], "notes": "Withhold irrigation before flowering to induce bloom."}, {"name": "Orange (Citrus)", "season": "Perennial", "water_requirement_mm": [600, 800], "irrigation_interval_days": [5, 10], "soil": "Loam, well-drained", "ideal_temp_c": [13, 30], "rainfall_mm": [600, 800], "ph_range": [6.0, 7.0], "notes": "Sensitive to waterlogging and salinity."}, {"name": "Pomegranate", "season": "Perennial", "water_requirement_mm": [500, 800], "irrigation_interval_days": [10, 15], "soil": "Loam, well-drained", "ideal_temp_c": [20, 32], "rainfall_mm": [500, 800], "ph_range": [5.5, 7.2], "notes": "Drought tolerant; avoid over-irrigation to prevent cracking."}]</script>
+</section>
+<script>window.__I18N_LANGS__ = [{code:'en',label:'English'},{code:'hi',label:'हिन्दी'}];</script><script src="i18n/i18n.js"></script></body>
+</html>
